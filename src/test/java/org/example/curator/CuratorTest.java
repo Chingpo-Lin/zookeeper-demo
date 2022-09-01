@@ -3,6 +3,8 @@ package org.example.curator;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.api.BackgroundCallback;
+import org.apache.curator.framework.api.CuratorEvent;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.Stat;
@@ -166,12 +168,48 @@ public class CuratorTest {
     // ============================delete================================================
 
     /**
-     *
+     * delete/deleteAll
+     * 1. delete single node
      * @throws Exception
      */
     @Test
-    public void testDelete() throws Exception {
+    public void testDelete1() throws Exception {
+        // delete single node
+        client.delete().forPath("/app1");
+    }
 
+    /**
+     * 2. delete node with child
+     * @throws Exception
+     */
+    @Test
+    public void testDelete2() throws Exception {
+        // delete node with children
+        client.delete().deletingChildrenIfNeeded().forPath("/app4");
+    }
+
+    /**
+     * 3. must success delete
+     */
+    @Test
+    public void testDelete3() throws Exception {
+        // must success delete
+        client.delete().guaranteed().forPath("/app2");
+    }
+
+    /**
+     * 4. callback
+     */
+    @Test
+    public void testDelete4() throws Exception {
+        // callback
+        client.delete().guaranteed().inBackground(new BackgroundCallback() {
+            @Override
+            public void processResult(CuratorFramework curatorFramework, CuratorEvent curatorEvent) throws Exception {
+                System.out.println("oh, no, I was delete");
+                System.out.println(curatorEvent);
+            }
+        }).forPath("/app2");
     }
 
     /**
