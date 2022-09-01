@@ -27,7 +27,6 @@ public class CuratorTest {
                 60 * 1000, 15 * 1000, retryPolicy);
         // start connect
         client.start();
-
         // second method to build connection
 //        CuratorFrameworkFactory.builder().connectString("127.0.0.1:2181")
 //                .sessionTimeoutMs(60 * 1000)
