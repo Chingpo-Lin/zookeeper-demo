@@ -43,6 +43,8 @@ public class CuratorTest {
         client.start();
     }
 
+    // ============================create================================================
+
     /**
      * create node (ephemeral, persistent, sequence, data)
      * 1. basic create
@@ -95,6 +97,8 @@ public class CuratorTest {
         System.out.println(path);
     }
 
+    // ============================get================================================
+
     /**
      * get node data:
      * 1. get data
@@ -133,7 +137,42 @@ public class CuratorTest {
         System.out.println(status);
     }
 
+    // ============================set================================================
 
+    /**
+     * 1. set data
+     * @throws Exception
+     */
+    @Test
+    public void testSet() throws Exception {
+        // set data
+        client.setData().forPath("/app1", "itcast".getBytes());
+    }
+
+    /**
+     * 2. set data according to version
+     * @throws Exception
+     */
+    @Test
+    public void testSetForVersion() throws Exception {
+        // set data with version
+        Stat status = new Stat();
+        client.getData().storingStatIn(status).forPath("/app1");
+        int version = status.getVersion(); // get version
+
+        client.setData().withVersion(version).forPath("app1", "hellollo".getBytes());
+    }
+
+    // ============================delete================================================
+
+    /**
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testDelete() throws Exception {
+
+    }
 
     /**
      * close
