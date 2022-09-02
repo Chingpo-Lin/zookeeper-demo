@@ -131,6 +131,7 @@ public class CuratorWatchTest {
         });
 
         // 3. start
+        treeCache.start();
     }
 
 
