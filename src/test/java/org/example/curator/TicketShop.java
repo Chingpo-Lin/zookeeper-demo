@@ -15,7 +15,6 @@ public class TicketShop implements Runnable {
     private InterProcessMutex lock;
 
     public TicketShop() {
-
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(3000, 10);
         CuratorFramework client = CuratorFrameworkFactory.builder().connectString("127.0.0.1:2181")
                 .sessionTimeoutMs(60 * 1000)
